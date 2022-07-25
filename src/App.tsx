@@ -1,6 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useRef } from 'react';
 import { Column, useTable } from 'react-table';
 import { Employee, STUB } from './stub';
+import { List, ListRowRenderer, WindowScroller, AutoSizer } from 'react-virtualized';
+import 'react-virtualized/styles.css';
 import './App.css';
 
 const COLUMNS: Column<Employee>[] = [
@@ -11,7 +13,7 @@ const COLUMNS: Column<Employee>[] = [
                 <span>{x.name}</span>
                 <span>@{x.login}</span>
             </div>
-        )
+        ),
     },
     {
         Header: 'Column 2',
@@ -30,6 +32,27 @@ export const App: FC = () => {
         columns: COLUMNS,
         data: STUB,
     });
+
+    const ref = useRef<WindowScroller>(null);
+
+    const RenderRow: ListRowRenderer = React.useCallback(
+        ({ index, style }) => {
+            const row = rows[index]
+            prepareRow(row)
+            return (
+                <tr {...row.getRowProps({ style })}>
+                    {row.cells.map(cell => {
+                        return (
+                            <td {...cell.getCellProps()}>
+                                {cell.render('Cell')}
+                            </td>
+                        )
+                    })}
+                </tr>
+            )
+        },
+        [prepareRow, rows]
+    );
 
     return (<div className='container'>
         <h1>qwfqwefqwef</h1>
@@ -56,26 +79,25 @@ export const App: FC = () => {
             </thead>
             {/* Apply the table body props */}
             <tbody {...getTableBodyProps()}>
-                {// Loop over the table rows
-                    rows.map(row => {
-                        // Prepare the row for display
-                        prepareRow(row)
-                        return (
-                            // Apply the row props
-                            <tr {...row.getRowProps()}>
-                                {// Loop over the rows cells
-                                    row.cells.map(cell => {
-                                        // Apply the cell props
-                                        return (
-                                            <td {...cell.getCellProps()}>
-                                                {// Render the cell contents
-                                                    cell.render('Cell')}
-                                            </td>
-                                        )
-                                    })}
-                            </tr>
-                        )
-                    })}
+                <AutoSizer disableHeight>
+                    {({width}) => (
+                        <WindowScroller ref={ref}>
+                            {({ height, isScrolling, onChildScroll, scrollTop }) => (
+                                <List
+                                    autoHeight
+                                    height={height}
+                                    isScrolling={isScrolling}
+                                    onScroll={onChildScroll}
+                                    rowCount={STUB.length}
+                                    rowHeight={41}
+                                    rowRenderer={RenderRow}
+                                    scrollTop={scrollTop}
+                                    width={width}
+                                />
+                            )}
+                        </WindowScroller>
+                    )}
+                </AutoSizer>
             </tbody>
         </table>
         <p>qwg4rt4yt</p>
