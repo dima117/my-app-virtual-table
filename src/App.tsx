@@ -17,7 +17,7 @@ const COLUMNS: Column<Employee>[] = [
         width: 400,
     },
     {
-        Header: 'Column 2',
+        Header: 'Сумма',
         accessor: x => <span>{x.salary}₽</span>,
         width: 140,
     },
@@ -62,48 +62,53 @@ export const App: FC = () => {
         <p>qwg4rt4yt</p>
         <p>qwg4rt4yt</p>
         <p>qwg4rt4yt</p>
-        <div {...getTableProps()}>
-            <div className="thead">
-                {
-                    // Loop over the header rows
-                    headerGroups.map(headerGroup => (
-                        // Apply the header row props
-                        <div {...headerGroup.getHeaderGroupProps()}>
-                            {// Loop over the headers in each row
-                                headerGroup.headers.map(column => (
-                                    // Apply the header cell props
-                                    <div {...column.getHeaderProps()}>
-                                        {// Render the header
-                                            column.render('Header')}
-                                    </div>
-                                ))}
-                        </div>
-                    ))
-                }
-            </div>
-            {/* Apply the table body props */}
-            <div {...getTableBodyProps()}>
-                <AutoSizer disableHeight>
-                    {({width}) => (
-                        <WindowScroller ref={ref}>
-                            {({ height, isScrolling, onChildScroll, scrollTop }) => (
-                                <List
-                                    autoHeight
-                                    height={height}
-                                    isScrolling={isScrolling}
-                                    onScroll={onChildScroll}
-                                    rowCount={STUB.length}
-                                    rowHeight={41}
-                                    rowRenderer={RenderRow}
-                                    scrollTop={scrollTop}
-                                    width={width}
-                                />
+        <div className="card">
+            <div className="card-body">
+                <div {...getTableProps()}>
+                    <div className="thead">
+                        {
+                            // Loop over the header rows
+                            headerGroups.map(headerGroup => (
+                                // Apply the header row props
+                                <div {...headerGroup.getHeaderGroupProps()}>
+                                    {// Loop over the headers in each row
+                                        headerGroup.headers.map(column => (
+                                            // Apply the header cell props
+                                            <div {...column.getHeaderProps()}>
+                                                {// Render the header
+                                                    column.render('Header')}
+                                            </div>
+                                        ))}
+                                </div>
+                            ))
+                        }
+                    </div>
+                    {/* Apply the table body props */}
+                    <div {...getTableBodyProps()}>
+                        <AutoSizer disableHeight>
+                            {({ width }) => (
+                                <WindowScroller ref={ref}>
+                                    {({ height, isScrolling, onChildScroll, scrollTop }) => (
+                                        <List
+                                            autoHeight
+                                            height={height}
+                                            isScrolling={isScrolling}
+                                            onScroll={onChildScroll}
+                                            rowCount={STUB.length}
+                                            rowHeight={41}
+                                            rowRenderer={RenderRow}
+                                            scrollTop={scrollTop}
+                                            width={width}
+                                        />
+                                    )}
+                                </WindowScroller>
                             )}
-                        </WindowScroller>
-                    )}
-                </AutoSizer>
+                        </AutoSizer>
+                    </div>
+                </div>
             </div>
         </div>
+
         <p>qwg4rt4yt</p>
         <p>qwg4rt4yt</p>
         <p>qwg4rt4yt</p>

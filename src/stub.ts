@@ -39,6 +39,6 @@ function getRandomEmployee(_: unknown, id: number): Employee {
     return { id, name, login, salary: 1000 * (100 + random(200)) };
 }
 
-export const STUB: Employee[] = new Array(496)
+export const STUB: Employee[] = new Array(1496)
     .fill(true)
     .map(getRandomEmployee);
